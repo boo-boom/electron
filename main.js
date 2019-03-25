@@ -1,13 +1,13 @@
-// 主进程
-const electron = require('electron');
-// 直接使用node模块
-const path = require('path');
+'use strict'
 
+// 主进程
 /**
  * app: 控制应用生命周期到模块
  * BrowserWindow: 窗口相关的模块
  */
-const {app, BrowserWindow} = electron;
+const {app, BrowserWindow} = require('electron');
+// 直接使用node模块
+const path = require('path');
 
 // 保存对应用窗口的引用
 let mainWindow = null;
@@ -15,12 +15,10 @@ let mainWindow = null;
 function createWindow() {
     // 创建BrowserWindow实例 赋值给mainWindow打开窗口
     mainWindow = new BrowserWindow({
-        width: 600,
-        height: 400,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    }); 
+        width: 1000,
+        height: 563,
+        useContentSize: true
+    })
 
     /**
      * 加载页面方式 loadFile loadURL
@@ -37,6 +35,11 @@ function createWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null;
     })
+
+    // 创建菜单
+    // require('./main/menu');
+    // 主进程与渲染进程通信
+    require('./main/ipcMain');
 }
 
 // 开启应用

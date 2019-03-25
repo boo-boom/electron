@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    渲染进程与渲染进程之间通信<br/>
+    1. localStorage
+    2. win.webContents.send
+        - ipcRenderer.send('openNew', winId, 456456);
+        - ipcMain.on('openNew', (event, winId, aid) => {
+            ...
+            // 监听当前窗口加载完成
+            win.webContents.on('did-finish-load', (event) => {
+                win.webContents.send('toNew', winId, aid)
+            })
+        }
+        - ipcRenderer.on('toNew', (event, winId, aid) => {
+            console.log('send:', aid)
+        })
+</body>
+<script src="render/new.js"></script>
+</html>
